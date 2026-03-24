@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionValueEvent } from 'motion/react';
 import { BookOpen, Users, Target, CheckCircle2, ChevronRight, Sparkles, Lightbulb, FileText, PenTool, ArrowRight } from 'lucide-react';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import materialsImg from './img/materials.png';
 
 const FLOATING_LETTERS = [
@@ -96,7 +96,7 @@ const PROCESS_STEPS = [
   }
 ];
 
-const TypewriterRichText = ({ segments, isActive }: { segments: any[], isActive: boolean }) => {
+const TypewriterRichText = ({ segments, isActive, onComplete }: { segments: any[], isActive: boolean, onComplete?: () => void }) => {
   if (!isActive) return null;
 
   const chars: { char: string; color: string }[] = [];
@@ -111,6 +111,9 @@ const TypewriterRichText = ({ segments, isActive }: { segments: any[], isActive:
     <motion.div
       initial="hidden"
       animate="visible"
+      onAnimationComplete={() => {
+        if (onComplete) onComplete();
+      }}
       variants={{
         visible: { transition: { staggerChildren: 0.01 } },
         hidden: {}
@@ -141,11 +144,39 @@ const StickyProcessFlow = () => {
   });
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    if (isTyping && window.innerWidth < 1024) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      
+      const preventScroll = (e: Event) => {
+        e.preventDefault();
+      };
+      
+      window.addEventListener('touchmove', preventScroll, { passive: false });
+      window.addEventListener('wheel', preventScroll, { passive: false });
+      
+      const timer = setTimeout(() => {
+        setIsTyping(false);
+      }, 2500);
+      
+      return () => {
+        document.body.style.overflow = '';
+        document.body.style.touchAction = '';
+        window.removeEventListener('touchmove', preventScroll);
+        window.removeEventListener('wheel', preventScroll);
+        clearTimeout(timer);
+      };
+    }
+  }, [isTyping]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const index = Math.min(Math.floor(latest * 5), 4);
     if (index !== activeIndex) {
       setActiveIndex(index);
+      setIsTyping(true);
     }
   });
 
@@ -195,13 +226,13 @@ const StickyProcessFlow = () => {
             </div>
 
             {/* Right side: The animated example and description */}
-            <div className="flex flex-col gap-4 md:gap-6 w-full mt-4 lg:mt-0 h-[400px] md:h-[460px] lg:h-[500px]">
+            <div className="flex flex-col gap-4 md:gap-6 w-full mt-4 lg:mt-0 h-[480px] sm:h-[520px] md:h-[460px] lg:h-[500px]">
               {/* Example Card */}
               <div className="relative glass-card rounded-3xl overflow-hidden bg-white/80 shadow-sm flex-1">
                 {PROCESS_STEPS.map((step, idx) => (
                   <div
                     key={idx}
-                    className={`absolute inset-0 p-6 md:p-8 flex flex-col justify-start transition-opacity duration-500 ${
+                    className={`absolute inset-0 p-5 md:p-8 flex flex-col justify-start transition-opacity duration-500 ${
                       activeIndex === idx 
                         ? 'opacity-100 pointer-events-auto z-10' 
                         : 'opacity-0 pointer-events-none z-0'
@@ -212,7 +243,15 @@ const StickyProcessFlow = () => {
                     </div>
                     
                     <div className="w-full overflow-hidden">
-                      <TypewriterRichText segments={step.exampleSegments} isActive={activeIndex === idx} />
+                      <TypewriterRichText 
+                        segments={step.exampleSegments} 
+                        isActive={activeIndex === idx} 
+                        onComplete={() => {
+                          if (activeIndex === idx) {
+                            setIsTyping(false);
+                          }
+                        }}
+                      />
                     </div>
                   </div>
                 ))}
