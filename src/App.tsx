@@ -148,9 +148,8 @@ const StickyProcessFlow = () => {
 
   useEffect(() => {
     if (isTyping && window.innerWidth < 1024) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-      
+      // We only use event listeners to prevent scrolling, 
+      // because setting overflow: hidden on body breaks position: sticky
       const preventScroll = (e: Event) => {
         e.preventDefault();
       };
@@ -163,8 +162,6 @@ const StickyProcessFlow = () => {
       }, 2500);
       
       return () => {
-        document.body.style.overflow = '';
-        document.body.style.touchAction = '';
         window.removeEventListener('touchmove', preventScroll);
         window.removeEventListener('wheel', preventScroll);
         clearTimeout(timer);
@@ -326,12 +323,11 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfbfd] font-sans selection:bg-wenzao selection:text-white relative w-full overflow-x-clip">
+    <div className="min-h-screen bg-[#fbfbfd] font-sans selection:bg-wenzao selection:text-white relative w-full">
       <FloatingLetters />
 
       <style>{`
         html, body {
-          overflow-x: clip;
           width: 100%;
           position: relative;
           -webkit-text-size-adjust: 100%;
