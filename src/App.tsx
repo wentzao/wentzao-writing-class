@@ -354,11 +354,11 @@ function App() {
               文藻育英寫作班
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-[#1d1d1f] mb-6 tracking-tighter leading-tight">
-              中高級<br className="hidden md:block" />
+              中高級<br />
               <span className="bg-gradient-to-r from-wenzao via-emerald-400 to-wenzao text-transparent bg-clip-text animate-gradient-text">閱讀與寫作</span>
             </h1>
-            <p className="text-lg md:text-2xl lg:text-3xl text-[#86868b] font-medium max-w-3xl mx-auto mb-12 leading-relaxed tracking-tight">
-              系統化建構清晰、有深度的英文表達能力。<br className="hidden md:block" />打造真正有效的進階學習環境。
+            <p className="text-[15px] sm:text-lg md:text-2xl lg:text-3xl text-[#86868b] font-medium max-w-3xl mx-auto mb-12 leading-relaxed tracking-tight">
+              系統化建構清晰、有深度的英文表達能力。<br />打造真正有效的進階學習環境。
             </p>
             <motion.a 
               href="#about"
