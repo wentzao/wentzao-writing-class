@@ -115,7 +115,7 @@ const TypewriterRichText = ({ segments, isActive }: { segments: any[], isActive:
         visible: { transition: { staggerChildren: 0.01 } },
         hidden: {}
       }}
-      className="font-mono text-[13px] md:text-[15px] whitespace-pre-wrap leading-[1.8] tracking-tight"
+      className="font-mono text-[13px] md:text-[15px] whitespace-pre-wrap break-words leading-[1.8] tracking-tight"
     >
       {chars.map((item, i) => (
         <motion.span
@@ -287,12 +287,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfbfd] font-sans selection:bg-wenzao selection:text-white relative">
+    <div className="min-h-screen bg-[#fbfbfd] font-sans selection:bg-wenzao selection:text-white relative overflow-x-hidden w-full">
       <FloatingLetters />
 
       <style>{`
-        body {
+        html, body {
           overflow-x: hidden;
+          width: 100%;
+          position: relative;
+          -webkit-text-size-adjust: 100%;
         }
         /* Lightbulb Flicker Animation */
         @keyframes lightbulb-flicker {
@@ -342,7 +345,7 @@ function App() {
       `}</style>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="container mx-auto px-6 text-center z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -378,7 +381,7 @@ function App() {
       <section 
         id="about" 
         ref={aboutRef}
-        className="py-20 md:py-32 relative group"
+        className="py-20 md:py-32 relative group overflow-hidden"
       >
         {/* Subtle background blobs for glassmorphism */}
         <div className="absolute top-0 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-wenzao/5 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
@@ -418,7 +421,7 @@ function App() {
       <StickyProcessFlow />
 
       {/* Features */}
-      <section className="py-20 md:py-32 relative">
+      <section className="py-20 md:py-32 relative overflow-hidden">
         <div className="absolute top-40 left-10 w-64 h-64 md:w-72 md:h-72 bg-emerald-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
         <div className="absolute bottom-10 right-10 w-64 h-64 md:w-72 md:h-72 bg-blue-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000" />
         
@@ -461,7 +464,7 @@ function App() {
       </section>
 
       {/* Materials */}
-      <section id="materials" className="py-20 md:py-32 relative">
+      <section id="materials" className="py-20 md:py-32 relative overflow-hidden">
         <div className="absolute top-1/2 right-0 w-64 h-64 md:w-96 md:h-96 bg-wenzao/5 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
         
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
@@ -532,7 +535,7 @@ function App() {
       </section>
 
       {/* Levels */}
-      <section id="levels" className="py-20 md:py-32 relative">
+      <section id="levels" className="py-20 md:py-32 relative overflow-hidden">
         <div className="absolute top-0 left-1/3 w-full h-full bg-gradient-to-b from-wenzao/5 to-transparent -z-10" />
         
         <div className="container mx-auto px-6 relative z-10">
