@@ -287,12 +287,12 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfbfd] font-sans selection:bg-wenzao selection:text-white relative overflow-x-hidden w-full">
+    <div className="min-h-screen bg-[#fbfbfd] font-sans selection:bg-wenzao selection:text-white relative w-full overflow-x-clip">
       <FloatingLetters />
 
       <style>{`
         html, body {
-          overflow-x: hidden;
+          overflow-x: clip;
           width: 100%;
           position: relative;
           -webkit-text-size-adjust: 100%;
