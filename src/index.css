@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-wenzao: #02a568;
+  --color-wenzao-light: #e6f6f0;
+  --color-wenzao-dark: #017a4d;
+  --font-sans: "Inter", "Noto Sans TC", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: #1f2937;
+}
